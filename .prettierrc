@@ -1,0 +1,18 @@
+{
+    "printWidth": 140,
+    "tabWidth": 4,
+    "singleQuote": true,
+    "bracketSpacing": false,
+    "semi": false,
+    "files.exclude": {
+        "node_modules": true,
+        ".npm-offline-cache": true
+    },
+    "editor.formatOnSave": true,
+    "[javascript]": {
+        "editor.formatOnSave": true
+    },
+    "[typescript]": {
+        "editor.formatOnSave": true
+    }
+}
