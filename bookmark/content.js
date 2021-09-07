@@ -1,4 +1,3 @@
-alert('22232')
 var checkButton = document.getElementById('two')
 
 // checkButton.addEventListener(
@@ -17,14 +16,13 @@ var checkButton = document.getElementById('two')
 // )
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    alert('aaaa')
     if (request.method == 'starWatch') {
         var checkButton = document.getElementById('two')
         checkButton.addEventListener(
             'click',
             function () {
-                alert('wow')
-                chrome.runtime.sendMessage({method: 'saveFavorite'}, function (request, sender, sendResponse) {
+                const elementHref = checkButton.getAttribute('href')
+                chrome.runtime.sendMessage({method: 'saveFavorite', href: elementHref}, function (request, sender, sendResponse) {
                     if (request.method == 'saveFavorite') {
                         alert('ddddd')
                     }
