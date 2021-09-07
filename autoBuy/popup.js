@@ -9,40 +9,9 @@ const calculateValue = (value, isFixed) => {
     return `* ${calculatedValue / 100}`
 }
 
-let bookMarks = []
-let pageProducts
-
-const getBookMarketKeys = (a) => {
-    return a.map((el) => {
-        if (!el.children || el.children.length === 0) {
-            return el.url
-        }
-        return getBookMarketKeys(el.children)
-    })
-}
-
-chrome.bookmarks.getTree((a) => {
-    bookMarks = getBookMarketKeys(a).flat(Infinity)
-    console.log(bookMarks)
-})
-
-const bbb = () =>
-    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].forEach((index) => {
-        const element = document.getElementsByClassName('market_listing_row_link')[`resultlink_${index}`]
-        const href = element?.href
-
-        const shouldApply = bookMarks.some((el) => el === href)
-        if (shouldApply) {
-            element.insertAdjacentHTML('beforeend', '<button id="two">two</button>')
-        }
-
-        console.log(href, bookMarks)
-    })
-
 document.addEventListener(
     'DOMContentLoaded',
     function () {
-        console.log(222)
         var saveValueButton = document.getElementById('saveValue')
         const defaultValueInput = document.getElementById('defaultValue')
         const defaultValue = localStorage.getItem('defaultValue') || ''
@@ -52,6 +21,8 @@ document.addEventListener(
         defaultValueInput.setAttribute('isFixed', isFixedLocalStorage)
 
         isFixed && document.getElementById('fixed').click()
+
+        console.log(calculateValue(defaultValue, isFixed))
 
         chrome.tabs.executeScript({
             code: `
@@ -65,32 +36,17 @@ document.addEventListener(
           `,
         })
 
-        chrome.tabs.executeScript(
-            {code: `[...document.getElementsByClassName('market_listing_row_link')].map(el => el.href)`},
-            (document) => {
-                console.log(document[0])
-            }
-        )
-
         saveValueButton.addEventListener(
             'click',
             function () {
-                console.log('bookMarks', bookMarks)
-
-                console.log(`var bookMarks = ['${bookMarks.join(',')}'];
-                (${bbb.toString()})();`)
-
-                chrome.tabs.executeScript(
-                    {
-                        code: `
-                        var bookMarks = ['${bookMarks.join("','")}'];
-                        (${bbb.toString()})();`,
-                    },
-                    (document) => {
-                        pageProducts = document[0]
-                        console.log(document)
-                    }
-                )
+                const wiw = document.getElementsByClassName('market_listing_row_link')[0].href
+                alert(wiw)
+                chrome.tabs.getSelected(null, function (tab) {
+                    const defaultValueInputValue = defaultValueInput.value
+                    const isFixed = document.getElementById('fixed').checked
+                    localStorage.setItem('isFixed', isFixed)
+                    localStorage.setItem('defaultValue', defaultValueInputValue)
+                })
             },
             false
         )

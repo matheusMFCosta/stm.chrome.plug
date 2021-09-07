@@ -3,10 +3,6 @@
     "name": "Bookmark",
     "description": "This extension will analyze a page using222",
     "version": "1.0",
-    "background": {
-        "scripts": ["popup.js"],
-        "persistent": true
-    },
     "browser_action": {
         "default_icon": "avatar.png",
         "default_popup": "popup.html"
