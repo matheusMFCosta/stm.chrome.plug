@@ -33,11 +33,18 @@ const bbb = () =>
 
         const shouldApply = bookMarks.some((el) => el === href)
         if (shouldApply) {
-            element.insertAdjacentHTML('beforeend', '<button id="two">two</button>')
+            element.insertAdjacentHTML('afterend', '<button id="two">two</button>')
         }
 
         console.log(href, bookMarks)
     })
+
+document.addEventListener('click', function (e) {
+    console.log('aaaa')
+    if (e.target.matches('#two')) {
+        alert('clicked!')
+    }
+})
 
 document.addEventListener(
     'DOMContentLoaded',
@@ -91,9 +98,20 @@ document.addEventListener(
                         console.log(document)
                     }
                 )
+
+                chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+                    chrome.tabs.sendMessage(tabs[0].id, {method: 'starWatch'}, function (response) {})
+                })
             },
             false
         )
     },
     false
 )
+
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    console.log(request)
+    if (request.method == 'saveFavorite') {
+        alert('ddddd3')
+    }
+})
