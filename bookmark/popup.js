@@ -56,25 +56,19 @@ const functionToApplyOnPage = () => {
     })
 }
 
-const loadApp = () => {
+const loadApp = setTimeout(() => {
     var saveValueButton = document.getElementById('saveValue')
+    var favoriteFolders = document.getElementById('favoriteFolders')
+    const defaultValue = localStorage.getItem('bm-defaultValue') || favoriteFolders.childNodes[1].value
+    favoriteFolders.value = defaultValue
 
-    // console.log('-----2', bookMarksFolders)
-    // var option = document.createElement('option')
-    // option.value = bookMarksFolders[0].id
-    // option.text = bookMarksFolders[0].title
-    // favoriteFoldersSelect.add(option)
-    // chrome.tabs.executeScript({
-    //     code: `
-    // document.getElementsByClassName("btn_green_white_innerfade")[0].click()
-    // var value = document.getElementById("market_commodity_buyreqeusts_table") && document.getElementById("market_commodity_buyreqeusts_table").getElementsByTagName("td")[0].innerHTML.split(" ")[1] ||document.getElementsByTagName("td")[0].innerHTML.split(" ")[1];
-    // document.getElementById("market_buy_commodity_input_price").value = (parseFloat(value.replace(".","").replace(",", ".")) ${calculateValue(
-    //     defaultValue,
-    //     isFixed
-    // )}).toFixed(2)
-    // document.getElementById("market_buyorder_dialog_accept_ssa").checked = true;
-    //   `,
-    // })
+    saveValueButton.addEventListener(
+        'click',
+        () => {
+            alert(defaultValue), localStorage.setItem('bm-defaultValue', favoriteFolders.value)
+        },
+        false
+    )
 
     chrome.tabs.executeScript(
         {
@@ -87,17 +81,14 @@ const loadApp = () => {
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         chrome.tabs.sendMessage(tabs[0].id, {method: 'starWatch'}, function (response) {})
     })
-}
+}, 100)
 
-document.addEventListener('DOMContentLoaded', setTimeout(loadApp, 100), false)
+document.addEventListener('DOMContentLoaded', () => loadApp(), false)
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    console.log(request)
     const favoriteFoldersSelect = document.getElementById('favoriteFolders')
     const selectedFolder = favoriteFoldersSelect.value
-
-    // const parentId = bookMarks.find((el) => (el = el.url === request.href)).parentId
-
+    alert('adicionado')
     if (request.method == 'saveFavorite') {
         chrome.bookmarks.create({parentId: selectedFolder, url: request.href, title: `script: ${request.href}`}, function (newFolder) {
             console.log('added folder: ' + newFolder.title)

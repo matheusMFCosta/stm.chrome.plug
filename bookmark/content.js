@@ -16,6 +16,7 @@ var checkButton = document.getElementById('two')
 // )
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    alert(request)
     if (request.method == 'starWatch') {
         var checkButton = document.getElementById('two')
         checkButton.addEventListener(
