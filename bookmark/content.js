@@ -26,13 +26,14 @@
 // )
 
 const sendMessage = (button) => {
-    alert('aaa')
     const elementHref = button.getAttribute('href')
-    chrome.runtime.sendMessage({method: 'saveFavorite', href: elementHref}, function (request, sender, sendResponse) {
+    const elementId = button.getAttribute('id')
+    chrome.runtime.sendMessage({method: 'saveFavorite', href: elementHref, tagId: elementId}, function (request, sender, sendResponse) {
         if (request.method == 'saveFavorite') {
-            alert('ddddd')
+            console.log('eh')
         }
     })
+    button.remove()
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {

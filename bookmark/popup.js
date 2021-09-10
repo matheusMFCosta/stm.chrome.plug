@@ -56,6 +56,10 @@ const functionToApplyOnPage = () => {
     })
 }
 
+const chromeExecuteScript = (script) => {
+    chrome.tabs.executeScript({code: script}, () => {})
+}
+
 const loadApp = setTimeout(() => {
     var saveValueButton = document.getElementById('saveValue')
     var favoriteFolders = document.getElementById('favoriteFolders')
@@ -70,13 +74,8 @@ const loadApp = setTimeout(() => {
         false
     )
 
-    chrome.tabs.executeScript(
-        {
-            code: `var bookMarks = ['${bookMarks.map((el) => el.url).join("','")}'];
-                    (${functionToApplyOnPage.toString()})();`,
-        },
-        () => {}
-    )
+    chromeExecuteScript(`var bookMarks = ['${bookMarks.map((el) => el.url).join("','")}'];
+                    (${functionToApplyOnPage.toString()})();`)
 
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         chrome.tabs.sendMessage(tabs[0].id, {method: 'starWatch'}, function (response) {})
@@ -86,7 +85,6 @@ const loadApp = setTimeout(() => {
 document.addEventListener('DOMContentLoaded', () => loadApp(), false)
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    console.log('______aaa__')
     const favoriteFoldersSelect = document.getElementById('favoriteFolders')
     const selectedFolder = favoriteFoldersSelect.value
     if (request.method == 'saveFavorite') {
@@ -94,5 +92,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             console.log('added folder: ' + newFolder.title)
         })
     }
+
     alert('adicionado')
 })
