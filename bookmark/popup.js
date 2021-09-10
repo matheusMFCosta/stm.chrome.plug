@@ -51,7 +51,7 @@ const functionToApplyOnPage = () => {
 
         const shouldApply = !bookMarks.some((el) => el.includes(href))
         if (shouldApply) {
-            element.insertAdjacentHTML('afterend', `<button id="two" href="${href}">two</button>`)
+            element.insertAdjacentHTML('afterend', `<button id="favorite_${index}" href="${href}">Favoritar</button>`)
         }
     })
 }
@@ -65,7 +65,7 @@ const loadApp = setTimeout(() => {
     saveValueButton.addEventListener(
         'click',
         () => {
-            alert(defaultValue), localStorage.setItem('bm-defaultValue', favoriteFolders.value)
+            localStorage.setItem('bm-defaultValue', favoriteFolders.value)
         },
         false
     )
@@ -86,13 +86,13 @@ const loadApp = setTimeout(() => {
 document.addEventListener('DOMContentLoaded', () => loadApp(), false)
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    console.log('______aaa__')
     const favoriteFoldersSelect = document.getElementById('favoriteFolders')
     const selectedFolder = favoriteFoldersSelect.value
-    alert('adicionado')
     if (request.method == 'saveFavorite') {
         chrome.bookmarks.create({parentId: selectedFolder, url: request.href, title: `script: ${request.href}`}, function (newFolder) {
             console.log('added folder: ' + newFolder.title)
         })
-        alert('adicionado')
     }
+    alert('adicionado')
 })
