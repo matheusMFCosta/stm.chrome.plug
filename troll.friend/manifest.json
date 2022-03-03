@@ -1,13 +1,18 @@
 {
-  "manifest_version": 2,
+    "manifest_version": 3,
+    "name": "Troll friends",
+    "description": "",
+    "version": "1.0",
+    "options_page": "popup.html",
+    "icons": {
+        "16": "avatar.png",
+        "32": "avatar.png",
+        "48": "avatar.png",
+        "128": "avatar.png"
+    },
 
-  "name": "Porcentagem",
-  "description": "This extension will analyze a page using GTmetrix",
-  "version": "1.0",
-
-  "browser_action": {
-    "default_icon": "avatar.png",
-    "default_popup": "popup.html"
-  },
-  "permissions": ["activeTab"]
+    "background": {
+        "service_worker": "background.js"
+    },
+    "permissions": ["activeTab", "scripting"]
 }
