@@ -76,6 +76,10 @@ const css = `\
     100% {left:0px; top:0px;}
 }`
 
+const styleSheet = document.createElement('style')
+styleSheet.innerText = css
+document.head.appendChild(styleSheet)
+
 const pList = this.document.getElementsByTagName('p')
 const listCount = pList.length
 const pIndex = 5 //Math.floor(Math.random() * (listCount ))
@@ -87,15 +91,19 @@ const newNodes = PChildren.map((child) => {
     console.log(child.nodeName)
     if (child.nodeName !== '#text') return child
     console.log('child', child, child.innerText, child.nodeName)
+
+    const splitText = child.textContent.split('')
+    const randomCharacterIndex = Math.floor(Math.random() * splitText.length)
+    const text = document.createTextNode(splitText[randomCharacterIndex])
+
     const newparentDivElement = document.createElement('div')
     newparentDivElement.classList.add('example')
-    const text = document.createTextNode(child.textContent.replace(/ /g, '\u00A0'))
     newparentDivElement.appendChild(text)
-    const styleSheet = document.createElement('style')
-    styleSheet.innerText = css
-    document.head.appendChild(styleSheet)
-    //const newChildrenSpanElement = document.createElement("span");
-    return newparentDivElement
-})
-element.replaceChildren(...newNodes)
 
+    return [
+        splitText.slice(0, randomCharacterIndex).join(''),
+        newparentDivElement,
+        splitText.slice(randomCharacterIndex + 1, splitText.length).join(''),
+    ]
+})
+element.replaceChildren(...newNodes.flat(1))
