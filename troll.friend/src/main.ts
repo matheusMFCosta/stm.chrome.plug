@@ -1,7 +1,3 @@
-// const styleSheet = document.createElement('style')
-// styleSheet.innerText = css
-// document.head.appendChild(styleSheet)
-
 enum ElementEffect {
     Jumping = 'jumping',
 }
@@ -31,7 +27,6 @@ const jumpping = (fileClassName: string) => {
     const element: any = pList[pIndex]
     const PChildren: any[] = [...(element.childNodes as any)]
 
-    console.log('---')
     const newNodes: any[][] = PChildren.map((child) => {
         console.log(child.nodeName)
         if (child.nodeName !== '#text') return child
@@ -56,7 +51,6 @@ const jumpping = (fileClassName: string) => {
     element.replaceChildren(...newNodes.flat(1))
 }
 
-
 const applyJs = (tabId: number, fileClassName: string) => {
     chrome.scripting.executeScript({
         target: {tabId: tabId},
@@ -65,8 +59,6 @@ const applyJs = (tabId: number, fileClassName: string) => {
     })
 }
 
-
-
 export const main = async (tabId) => {
     console.log('00', tabId)
     const effect = ElementEffect.Jumping
@@ -74,8 +66,6 @@ export const main = async (tabId) => {
     const fileCssPath = getCurrentEffect.path
     const fileClassName = getCurrentEffect.className
     applyCss(fileCssPath, tabId)
-    const elementId: number = +new Date()
-
     applyJs(tabId, fileClassName)
     console.log('dddå')
 }
