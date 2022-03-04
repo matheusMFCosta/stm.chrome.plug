@@ -24,44 +24,14 @@ const applyCss = (filePath: string, tabId: number) => {
     })
 }
 
-const findParagraphElement = (): HTMLElement => {
-    const pList = this.document.getElementsByTagName('p')
+const jumpping = (fileClassName: string) => {
+    const pList = this!.document.getElementsByTagName('p')
     const listCount = pList.length
     const pIndex = 5 //Math.floor(Math.random() * (listCount ))
     const element: any = pList[pIndex]
     const PChildren: any[] = [...(element.childNodes as any)]
-    return element
-}
 
-// const setElementEffect = (effect: ElementEffect) => {
-//     const getCurrentEffect = effectMap[effect]
-//     const fileCssPath = getCurrentEffect.path
-//     const fileClassName = getCurrentEffect.path
-// }
-console.log('222')
-
-async function getCurrentTab() {
-    let queryOptions = {active: true, currentWindow: true}
-    let [tab] = await chrome.tabs.query(queryOptions)
-    return tab
-}
-
-const main = async () => {
-    console.log('00')
-    const wow = 1 //await getCurrentTab()
-
-    console.log('----', wow)
-    const tabId = wow[0].id
-
-    const effect = ElementEffect.Jumping
-    const getCurrentEffect = effectMap[effect]
-    const fileCssPath = getCurrentEffect.path
-    const fileClassName = getCurrentEffect.path
-    applyCss(fileCssPath, tabId)
-    console.log("dddå")
-    const element = findParagraphElement()
-    const PChildren: any[] = [...(element.childNodes as any)]
-
+    console.log('---')
     const newNodes: any[][] = PChildren.map((child) => {
         console.log(child.nodeName)
         if (child.nodeName !== '#text') return child
@@ -86,5 +56,26 @@ const main = async () => {
     element.replaceChildren(...newNodes.flat(1))
 }
 
-main()
 
+const applyJs = (tabId: number, fileClassName: string) => {
+    chrome.scripting.executeScript({
+        target: {tabId: tabId},
+        func: jumpping,
+        args: [fileClassName],
+    })
+}
+
+
+
+export const main = async (tabId) => {
+    console.log('00', tabId)
+    const effect = ElementEffect.Jumping
+    const getCurrentEffect = effectMap[effect]
+    const fileCssPath = getCurrentEffect.path
+    const fileClassName = getCurrentEffect.className
+    applyCss(fileCssPath, tabId)
+    const elementId: number = +new Date()
+
+    applyJs(tabId, fileClassName)
+    console.log('dddå')
+}
