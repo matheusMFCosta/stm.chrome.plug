@@ -2,16 +2,24 @@
     position: relative;
     animation-name: jumpingCss;
     animation-duration: 4s;
-    animation-timing-function: ease;
-    animation-timing-function: linear;
-    -webkit-animation-timing-function: linear;
-    transition: transform 0.5s ease-in;
+    animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+    -webkit-animation-timing-function: ease-in;
+    transition: all 4s ease-in;
     display: inline-block;
+    animation-fill-mode: forwards;
     color: red;
 }
 
 @keyframes jumpingCss {
-    0% {
+    from {
+        transform: translateY(0%);
+    }
+
+    to {
+        transform: translateY(-3%);
+    }
+    /*  0% {
         left: 0px;
         top: 0px;
     }
@@ -38,5 +46,5 @@
     100% {
         left: 0px;
         top: 0px;
-    }
+    }*/
 }

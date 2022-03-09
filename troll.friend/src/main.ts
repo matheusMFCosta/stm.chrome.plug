@@ -9,54 +9,66 @@ type EffectMap = {
 const effectMap: Record<ElementEffect, EffectMap> = {
     [ElementEffect.Jumping]: {
         className: 'jumpingCss',
-        path: './jumpingChar.css',
+        path: './dist/jumpingChar.css',
     },
 }
 
-const applyCss = (filePath: string, tabId: number) => {
-    chrome.scripting.insertCSS({
+const applyCss = async (filePath: string, tabId: number): Promise<void> => {
+    return await chrome.scripting.insertCSS({
         target: {tabId: tabId},
         files: [filePath],
     })
 }
 
-const jumpping = (fileClassName: string) => {
-    const pList = this!.document.getElementsByTagName('p')
-    const listCount = pList.length
-    const pIndex = 5 //Math.floor(Math.random() * (listCount ))
-    const element: any = pList[pIndex]
-    const PChildren: any[] = [...(element.childNodes as any)]
+const jumpping = (fileClassName: string, intensity: number) => {
+    const p = []
+    for (let i = 0; i < intensity; i++) {
+        //@ts-ignore
+        const pList = this!.document.getElementsByTagName('p')
+        const listCount = pList.length
+        const pIndex = Math.floor(Math.random() * listCount)
+        const element: any = pList[pIndex]
+        const PChildren: any[] = [...(element.childNodes as any)]
+        let i = 0
+        const newNodes: any[][] = PChildren.map((child, index) => {
+            console.log(child.nodeName)
+            if (child.nodeName !== '#text' || (child.nodeName === 'DIV' && child.className === 'jumpingCss')) return child
+            console.log('child2', child, child.innerText, child.nodeName)
 
-    const newNodes: any[][] = PChildren.map((child) => {
-        console.log(child.nodeName)
-        if (child.nodeName !== '#text') return child
-        console.log('child2', child, child.innerText, child.nodeName)
+            const splitText = child.textContent.split('')
+            const randomCharacterIndex = Math.floor(Math.random() * (splitText.length - 1))
+            const text = document.createTextNode(splitText[randomCharacterIndex] || '')
 
-        const splitText = child.textContent.split('')
-        const randomCharacterIndex = Math.floor(Math.random() * splitText.length)
-        const text = document.createTextNode(splitText[randomCharacterIndex])
+            const newparentDivElement = document.createElement('div')
+            newparentDivElement.classList.add(fileClassName)
 
-        const newparentDivElement = document.createElement('div')
-        newparentDivElement.classList.add(fileClassName)
-        newparentDivElement.appendChild(text)
+            newparentDivElement.appendChild(text)
+            console.log(i, text, splitText, randomCharacterIndex)
+            i = i + 1
+            return [
+                splitText.slice(0, randomCharacterIndex).join(''),
+                newparentDivElement,
+                splitText.slice(randomCharacterIndex + 1, splitText.length).join(''),
+            ]
+        })
 
-        return [
-            splitText.slice(0, randomCharacterIndex).join(''),
-            newparentDivElement,
-            splitText.slice(randomCharacterIndex + 1, splitText.length).join(''),
-        ]
-    })
-
-    console.log('newNodes', newNodes)
-    element.replaceChildren(...newNodes.flat(1))
+        console.log('newNodes', newNodes)
+        element.replaceChildren(...newNodes.flat(1))
+    }
 }
 
-const applyJs = (tabId: number, fileClassName: string) => {
+const applyJs = (tabId: number, fileClassName: string, intensity: number) => {
     chrome.scripting.executeScript({
         target: {tabId: tabId},
         func: jumpping,
-        args: [fileClassName],
+        args: [fileClassName, intensity],
     })
+}
+
+const intensityMap = {
+    low: 10,
+    medium: 25,
+    hight: 100,
 }
 
 export const main = async (tabId) => {
@@ -65,7 +77,8 @@ export const main = async (tabId) => {
     const getCurrentEffect = effectMap[effect]
     const fileCssPath = getCurrentEffect.path
     const fileClassName = getCurrentEffect.className
-    applyCss(fileCssPath, tabId)
-    applyJs(tabId, fileClassName)
+    const intensity = intensityMap.hight
+    await applyCss(fileCssPath, tabId)
+    applyJs(tabId, fileClassName, intensity)
     console.log('dddå')
 }
