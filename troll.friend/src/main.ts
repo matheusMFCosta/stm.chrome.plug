@@ -21,13 +21,19 @@ const applyCss = async (filePath: string, tabId: number): Promise<void> => {
 }
 
 const jumpping = (fileClassName: string, intensity: number) => {
-    const p = []
+    const ps = new Set()
     for (let i = 0; i < intensity; i++) {
+        const tagArray = ['p', 'a', 'span']
+        const randomElement = tagArray[Math.floor(Math.random() * tagArray.length)]
         //@ts-ignore
-        const pList = this!.document.getElementsByTagName('p')
+        const pList = this!.document.getElementsByTagName(randomElement)
         const listCount = pList.length
         const pIndex = Math.floor(Math.random() * listCount)
         const element: any = pList[pIndex]
+        ps.add(element)
+    }
+
+    ps.forEach((element: any) => {
         const PChildren: any[] = [...(element.childNodes as any)]
         let i = 0
         const newNodes: any[][] = PChildren.map((child, index) => {
@@ -39,7 +45,7 @@ const jumpping = (fileClassName: string, intensity: number) => {
             const randomCharacterIndex = Math.floor(Math.random() * (splitText.length - 1))
             const text = document.createTextNode(splitText[randomCharacterIndex] || '')
 
-            const newparentDivElement = document.createElement('div')
+            const newparentDivElement = document.createElement(element.nodeName)
             newparentDivElement.classList.add(fileClassName)
 
             newparentDivElement.appendChild(text)
@@ -54,7 +60,7 @@ const jumpping = (fileClassName: string, intensity: number) => {
 
         console.log('newNodes', newNodes)
         element.replaceChildren(...newNodes.flat(1))
-    }
+    })
 }
 
 const applyJs = (tabId: number, fileClassName: string, intensity: number) => {
@@ -69,6 +75,7 @@ const intensityMap = {
     low: 10,
     medium: 25,
     hight: 100,
+    insane: 500,
 }
 
 export const main = async (tabId) => {
@@ -77,7 +84,7 @@ export const main = async (tabId) => {
     const getCurrentEffect = effectMap[effect]
     const fileCssPath = getCurrentEffect.path
     const fileClassName = getCurrentEffect.className
-    const intensity = intensityMap.hight
+    const intensity = intensityMap.insane
     await applyCss(fileCssPath, tabId)
     applyJs(tabId, fileClassName, intensity)
     console.log('dddå')

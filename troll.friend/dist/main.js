@@ -15,12 +15,17 @@ const applyCss = async (filePath, tabId) => {
     });
 };
 const jumpping = (fileClassName, intensity) => {
-    const p = [];
+    const ps = new Set();
     for (let i = 0; i < intensity; i++) {
-        const pList = this.document.getElementsByTagName('p');
+        const tagArray = ['p', 'a', 'span'];
+        const randomElement = tagArray[Math.floor(Math.random() * tagArray.length)];
+        const pList = this.document.getElementsByTagName(randomElement);
         const listCount = pList.length;
         const pIndex = Math.floor(Math.random() * listCount);
         const element = pList[pIndex];
+        ps.add(element);
+    }
+    ps.forEach((element) => {
         const PChildren = [...element.childNodes];
         let i = 0;
         const newNodes = PChildren.map((child, index) => {
@@ -44,7 +49,7 @@ const jumpping = (fileClassName, intensity) => {
         });
         console.log('newNodes', newNodes);
         element.replaceChildren(...newNodes.flat(1));
-    }
+    });
 };
 const applyJs = (tabId, fileClassName, intensity) => {
     chrome.scripting.executeScript({
@@ -57,6 +62,7 @@ const intensityMap = {
     low: 10,
     medium: 25,
     hight: 100,
+    insane: 500,
 };
 export const main = async (tabId) => {
     console.log('00', tabId);
@@ -64,7 +70,7 @@ export const main = async (tabId) => {
     const getCurrentEffect = effectMap[effect];
     const fileCssPath = getCurrentEffect.path;
     const fileClassName = getCurrentEffect.className;
-    const intensity = intensityMap.hight;
+    const intensity = intensityMap.insane;
     await applyCss(fileCssPath, tabId);
     applyJs(tabId, fileClassName, intensity);
     console.log('dddå');
