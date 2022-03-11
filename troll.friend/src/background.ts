@@ -1,4 +1,4 @@
-import {main} from './dist/main.js'
+import {main} from './main.js'
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status === 'complete') {

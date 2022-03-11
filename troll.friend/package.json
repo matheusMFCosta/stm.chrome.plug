@@ -6,7 +6,8 @@
         "build:front": "yarn --cwd ./my-app build",
         "build:back": "yarn tsc -b",
         "prebuild": "rm -rf dist",
-        "build": " yarn build:back && yarn copy-files && yarn build:front  && mv -f ./my-app/build/*  ./dist"
+        "build": " yarn build:back && yarn copy-files && yarn build:front  && mv -f ./my-app/build/*  ./dist",
+        "start": " yarn build:back && yarn copy-files && yarn build:front  && mv -f ./my-app/build/*  ./dist"
     },
     "dependencies": {
         "copyfiles": "2.4.1",
