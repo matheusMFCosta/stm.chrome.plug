@@ -1,5 +1,5 @@
 {
-    "name": "troll friend",
+    "name": "troll-friend",
     "version": "1.0.0",
     "scripts": {
         "copy-files": "copyfiles -u 1 background/**/*.html background/**/*.css dist/",
