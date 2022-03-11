@@ -1,13 +1,15 @@
 {
-    "name": "my-awesome-package",
+    "name": "troll friend",
     "version": "1.0.0",
     "scripts": {
-        "copy-files": "copyfiles -u 1 src/**/*.html src/**/*.css dist/",
-        "build:front": "yarn --cwd ./my-app build",
-        "build:back": "yarn tsc -b",
+        "copy-files": "copyfiles -u 1 background/**/*.html background/**/*.css dist/",
+        "build:front": "yarn --cwd ./popup build",
+        "build:back": "tsc -b",
+        "start:back": "tsc -b --watch",
+        "start:front": "yarn --cwd ./popup start",
         "prebuild": "rm -rf dist",
-        "build": " yarn build:back && yarn copy-files && yarn build:front  && mv -f ./my-app/build/*  ./dist",
-        "start": " yarn build:back && yarn copy-files && yarn build:front  && mv -f ./my-app/build/*  ./dist"
+        "build": " yarn copy-files && yarn build:back && yarn build:front && mv -f ./popup/build/*  ./dist",
+        "start": " yarn copy-files && yarn start:back & yarn start:front"
     },
     "dependencies": {
         "copyfiles": "2.4.1",

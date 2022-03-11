@@ -3,7 +3,7 @@ import {main} from './main.js'
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status === 'complete') {
         main(tabId)
-        console.log('INJECTED THE FOREGROUND STYLES.')
+        console.log('INJECTED THE FOREGROUND STYLES.ssss')
 
         // chrome.scripting
         //     .executeScript({

@@ -10,6 +10,6 @@
         "moduleResolution": "Node",
         "skipLibCheck": true
     },
-    "include": ["src/**/*"],
+    "include": ["background/**/*"],
     "exclude": ["typings/browser.d.ts", "typings/browser", "*/node_modules", "typings"]
 }
