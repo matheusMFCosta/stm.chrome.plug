@@ -3,10 +3,10 @@
     "name": "Troll friends",
     "description": "",
     "version": "1.0",
-    "options_page": "./dist/index.html",
+    "options_page": "index.html",
     "action": {
         "default_icon": "avatar.png",
-        "default_popup": "/dist/index.html"
+        "default_popup": "index.html"
     },
     "icons": {
         "16": "avatar.png",

@@ -36,7 +36,7 @@ const jumpping = (fileClassName, intensity) => {
             const splitText = child.textContent.split('');
             const randomCharacterIndex = Math.floor(Math.random() * (splitText.length - 1));
             const text = document.createTextNode(splitText[randomCharacterIndex] || '');
-            const newparentDivElement = document.createElement('div');
+            const newparentDivElement = document.createElement(element.nodeName);
             newparentDivElement.classList.add(fileClassName);
             newparentDivElement.appendChild(text);
             console.log(i, text, splitText, randomCharacterIndex);
