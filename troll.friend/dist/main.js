@@ -5,7 +5,7 @@ var ElementEffect;
 const effectMap = {
     [ElementEffect.Jumping]: {
         className: 'jumpingCss',
-        path: './dist/jumpingChar.css',
+        path: './jumpingChar.css',
     },
 };
 const applyCss = async (filePath, tabId) => {
@@ -25,7 +25,11 @@ const jumpping = (fileClassName, intensity) => {
         const element = pList[pIndex];
         ps.add(element);
     }
+    const applicationPropName = 'ta';
     ps.forEach((element) => {
+        if (element.getAttribute(applicationPropName) !== null)
+            return;
+        element.setAttribute(applicationPropName, 'true');
         const PChildren = [...element.childNodes];
         let i = 0;
         const newNodes = PChildren.map((child, index) => {
@@ -36,7 +40,7 @@ const jumpping = (fileClassName, intensity) => {
             const splitText = child.textContent.split('');
             const randomCharacterIndex = Math.floor(Math.random() * (splitText.length - 1));
             const text = document.createTextNode(splitText[randomCharacterIndex] || '');
-            const newparentDivElement = document.createElement(element.nodeName);
+            const newparentDivElement = document.createElement('span');
             newparentDivElement.classList.add(fileClassName);
             newparentDivElement.appendChild(text);
             console.log(i, text, splitText, randomCharacterIndex);

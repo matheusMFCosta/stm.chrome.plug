@@ -9,7 +9,7 @@ type EffectMap = {
 const effectMap: Record<ElementEffect, EffectMap> = {
     [ElementEffect.Jumping]: {
         className: 'jumpingCss',
-        path: './dist/jumpingChar.css',
+        path: './jumpingChar.css',
     },
 }
 
@@ -30,10 +30,15 @@ const jumpping = (fileClassName: string, intensity: number) => {
         const listCount = pList.length
         const pIndex = Math.floor(Math.random() * listCount)
         const element: any = pList[pIndex]
+
         ps.add(element)
     }
 
+    const applicationPropName = 'ta'
     ps.forEach((element: any) => {
+        if (element.getAttribute(applicationPropName) !== null) return
+        element.setAttribute(applicationPropName, 'true')
+
         const PChildren: any[] = [...(element.childNodes as any)]
         let i = 0
         const newNodes: any[][] = PChildren.map((child, index) => {
@@ -45,7 +50,7 @@ const jumpping = (fileClassName: string, intensity: number) => {
             const randomCharacterIndex = Math.floor(Math.random() * (splitText.length - 1))
             const text = document.createTextNode(splitText[randomCharacterIndex] || '')
 
-            const newparentDivElement = document.createElement(element.nodeName)
+            const newparentDivElement = document.createElement('span')
             newparentDivElement.classList.add(fileClassName)
 
             newparentDivElement.appendChild(text)

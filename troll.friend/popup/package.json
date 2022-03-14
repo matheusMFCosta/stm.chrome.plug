@@ -3,6 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@stone-payments/infinity": "3.8.22",
         "@testing-library/jest-dom": "^5.16.2",
         "@testing-library/react": "^12.1.4",
         "@testing-library/user-event": "^13.5.0",
@@ -13,11 +14,21 @@
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "react-scripts": "5.0.0",
-        "typescript": "^4.6.2"
+        "typescript": "^4.6.2",
+        "tailwindcss": "3.0.6"
+    },
+    "devDependencies": {
+        "concurrently": "7.0.0",
+        "postcss": "8.4.5",
+        "postcss-cli": "8.3.1",
+        "postcss-import": "14.0.2"
     },
     "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
+        "css:prod": "TAILWIND_MODE=build NODE_ENV=production postcss src/styles/index.css -o src/styles/dist.css",
+        "css": "TAILWIND_MODE=watch NODE_ENV=development postcss src/styles/index.css -o src/styles/dist.css --watch",
+        "dev": "concurrently 'yarn css' 'react-scripts start'",
+        "start": "yarn dev",
+        "build": "yarn css:prod && react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },
