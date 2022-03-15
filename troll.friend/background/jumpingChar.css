@@ -1,5 +1,6 @@
 .jumpingCss {
     position: relative;
+    text-decoration: inherit;
     animation-name: jumpingCss;
     animation-duration: 4s;
     animation-timing-function: ease-in;

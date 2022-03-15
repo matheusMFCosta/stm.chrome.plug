@@ -83,6 +83,20 @@ const intensityMap = {
     insane: 500,
 }
 
+chrome.runtime.onMessage.addListener((messagemessage) => {
+    console.log(messagemessage)
+})
+
+chrome.runtime.onMessageExternal.addListener(function (request, sender, sendResponse) {
+    console.log(request, sender, sendResponse)
+    return ' aaa'
+})
+//@ts-ignore
+chrome.extension.onMessage.addListener(function (myMessage, sender, sendResponse) {
+    //do something that only the extension has privileges here
+    return true
+})
+
 export const main = async (tabId) => {
     console.log('00', tabId)
     const effect = ElementEffect.Jumping

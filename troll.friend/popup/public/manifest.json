@@ -20,5 +20,8 @@
         "type": "module"
     },
     "permissions": ["scripting", "activeTab", "tabs"],
-    "host_permissions": ["*://*/*"]
+    "host_permissions": ["*://*/*"],
+    "externally_connectable": {
+        "matches": ["*://*/*"]
+    }
 }

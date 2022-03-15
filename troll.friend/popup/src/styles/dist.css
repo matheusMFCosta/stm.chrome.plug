@@ -233,4 +233,4 @@ video {
 Ensure the default browser behavior of the `hidden` attribute.
 */[hidden] {
   display: none;
-}
+}.mr-2{margin-right:.5rem }.flex{display:flex }.w-1\/2{width:50% }.flex-col{flex-direction:column }.text-xs{font-size:0.75rem;line-height:1.45  }.text-sm{font-size:0.875rem;line-height:1.45  }
