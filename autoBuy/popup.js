@@ -53,3 +53,49 @@ document.addEventListener(
     },
     false
 )
+const css = `\
+  .example {
+    position: relative;
+    animation-name: example;
+    animation-duration: 4s;
+    animation-timing-function: ease;
+    animation-timing-function: linear;
+    -webkit-animation-timing-function: linear;
+    transition:transform .5s ease-in;
+    display: inline-block;
+    color: red;
+  }
+
+  @keyframes example {
+    0%   {left:0px; top:0px;}
+    10%   {left:0px; top:0.1px;}
+    30% {left:0px; top:0.5px;}
+    50%   {left:0px; top:-10px;}
+    70%   {left:0px; top:0.5px;}
+    9-0% {left:0px; top:0.1px;}
+    100% {left:0px; top:0px;}
+}`
+
+const pList = this.document.getElementsByTagName('p')
+const listCount = pList.length
+const pIndex = 5 //Math.floor(Math.random() * (listCount ))
+const element = pList[pIndex]
+const PChildren = [...element.childNodes]
+console.log(element.childNodes, PChildren.entries())
+
+const newNodes = PChildren.map((child) => {
+    console.log(child.nodeName)
+    if (child.nodeName !== '#text') return child
+    console.log('child', child, child.innerText, child.nodeName)
+    const newparentDivElement = document.createElement('div')
+    newparentDivElement.classList.add('example')
+    const text = document.createTextNode(child.textContent.replace(/ /g, '\u00A0'))
+    newparentDivElement.appendChild(text)
+    const styleSheet = document.createElement('style')
+    styleSheet.innerText = css
+    document.head.appendChild(styleSheet)
+    //const newChildrenSpanElement = document.createElement("span");
+    return newparentDivElement
+})
+element.replaceChildren(...newNodes)
+

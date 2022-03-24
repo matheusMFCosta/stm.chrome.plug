@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "module": "ESNext",
+        "target": "ESNext",
+        "lib": ["ESNext", "dom"],
+        "noImplicitAny": false,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "outDir": "dist",
+        "moduleResolution": "Node",
+        "skipLibCheck": true
+    },
+    "include": ["background/**/*"],
+    "exclude": ["typings/browser.d.ts", "typings/browser", "*/node_modules", "typings"]
+}

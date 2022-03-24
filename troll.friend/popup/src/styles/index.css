@@ -1,0 +1,6 @@
+@import '@stone-payments/infinity/dist/index.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
