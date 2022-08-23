@@ -22,6 +22,6 @@
     "permissions": ["scripting", "activeTab", "tabs"],
     "host_permissions": ["*://*/*"],
     "externally_connectable": {
-        "matches": ["*://*/*"]
+        "matches": ["http://localhost:3000/*"]
     }
 }

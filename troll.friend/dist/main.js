@@ -73,7 +73,7 @@ chrome.runtime.onMessage.addListener((messagemessage) => {
 });
 chrome.runtime.onMessageExternal.addListener(function (request, sender, sendResponse) {
     console.log(request, sender, sendResponse);
-    return " aaa";
+    return ' aaa';
 });
 export const main = async (tabId) => {
     console.log('00', tabId);

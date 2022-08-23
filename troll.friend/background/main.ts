@@ -92,10 +92,25 @@ chrome.runtime.onMessageExternal.addListener(function (request, sender, sendResp
     return ' aaa'
 })
 //@ts-ignore
-chrome.extension.onMessage.addListener(function (myMessage, sender, sendResponse) {
-    //do something that only the extension has privileges here
-    return true
-})
+// chrome.extension.onMessage.addListener(function (myMessage, sender, sendResponse) {
+//     //do something that only the extension has privileges here
+//     return true
+// })
+
+//@ts-ignore
+// browser.runtime.onMessage.addListener(notify)
+
+// function notify(message) {
+//     console.log(message)
+//     //@ts-ignore
+//     browser.notifications.create({
+//         type: 'basic',
+//         //@ts-ignore
+//         iconUrl: browser.extension.getURL('link.png'),
+//         title: 'You clicked a link!',
+//         message: message.url,
+//     })
+// }
 
 export const main = async (tabId) => {
     console.log('00', tabId)
